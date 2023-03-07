@@ -10,6 +10,10 @@ import (
 func router() http.Handler {
 	r := chi.NewMux()
 
+	r.Get(`/`, func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`Ok, nerd`))
+	})
+
 	r.HandleFunc("/ws", ws.SocketHandler)
 
 	return r
