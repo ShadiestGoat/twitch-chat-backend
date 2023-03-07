@@ -3,12 +3,14 @@ package db
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"strings"
 	"sync"
 	"time"
 
 	"github.com/ShadiestGoat/twitch-chat-backend/config"
+	"github.com/ShadiestGoat/twitch-chat-backend/log"
 	"github.com/gempir/go-twitch-irc/v4"
 )
 
@@ -40,18 +42,23 @@ func init() {
 	go func () {
 		for {
 			resp, err := http.Get(`https://7tv.io/v3/users/twitch/` + config.TWITCH_CHANNEL_ID)
-			if err != nil {
+			if log.ErrorIfErr(err, "fetching emotes") {
 				fmt.Println("emote err", err)
 				time.Sleep(10 * time.Minute)
 				continue
 			}
 			if resp == nil || resp.Body == nil || resp.StatusCode != 200 {
-				status := 0
+				status := "???"
+				body := "???"
 				if resp != nil {
-					status = resp.StatusCode
+					status = fmt.Sprint(resp.StatusCode)
+					if resp.Body != nil {
+						b, _ := io.ReadAll(resp.Body)
+						body = string(b)
+					}
 				}
 
-				fmt.Println("emote bad resp", resp, status)
+				log.Error("bad emote response:\nStatus: %s\nBody: %s\nResp: %v", status, body, resp)
 				time.Sleep(10 * time.Minute)
 				continue
 			}
@@ -64,8 +71,7 @@ func init() {
 
 			err = json.NewDecoder(resp.Body).Decode(&emotesRaw)
 			
-			if err != nil {
-				fmt.Println("emote decode err", err)
+			if log.ErrorIfErr(err, "json decoding emotes") {
 				time.Sleep(10 * time.Minute)
 				continue
 			}
