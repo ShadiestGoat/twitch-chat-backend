@@ -41,7 +41,7 @@ func init() {
 		for {
 			resp, err := http.Get(`https://7tv.io/v3/users/twitch/` + config.TWITCH_CHANNEL_ID)
 			if err != nil {
-				fmt.Println(err)
+				fmt.Println("emote err", err)
 				time.Sleep(10 * time.Minute)
 				continue
 			}
@@ -51,7 +51,7 @@ func init() {
 					status = resp.StatusCode
 				}
 
-				fmt.Println(resp, status)
+				fmt.Println("emote bad resp", resp, status)
 				time.Sleep(10 * time.Minute)
 				continue
 			}
@@ -65,7 +65,7 @@ func init() {
 			err = json.NewDecoder(resp.Body).Decode(&emotesRaw)
 			
 			if err != nil {
-				fmt.Println(err)
+				fmt.Println("emote decode err", err)
 				time.Sleep(10 * time.Minute)
 				continue
 			}

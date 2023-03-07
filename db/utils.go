@@ -176,7 +176,7 @@ func ProcessAuthor(raw *twitch.User) *Author {
 
 	pr, err := pronounClient.Lookup(pronoundb.PLATFORM_TWITCH, raw.ID)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("author err", err)
 		pr = pronoundb.PR_UNSPECIFIED
 	}
 
