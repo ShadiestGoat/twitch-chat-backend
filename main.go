@@ -19,12 +19,15 @@ func main() {
 	cleanCB := make(chan bool, 1)
 	
 	go db.DBClearLoop(cleanCB)
+
 	go func() {
 		for {
 			<- cleanCB
 			wsutils.UpdateMessages()
 		}
 	}()
+
+	db.Init()
 	
 	c := twitch.NewAnonymousClient()
 

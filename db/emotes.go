@@ -34,7 +34,7 @@ var emotes = &emoteDB{
 	sevenTV:   map[string]string{},
 }
 
-func init() {
+func Init() {
 	for _, e := range config.EMOTE_BLACKLIST {
 		emotes.blacklist[e] = true
 	}
