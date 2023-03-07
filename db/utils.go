@@ -8,6 +8,7 @@ import (
 	"github.com/ShadiestGoat/colorutils"
 	"github.com/ShadiestGoat/pronoundb"
 	"github.com/ShadiestGoat/twitch-chat-backend/colors"
+	"github.com/ShadiestGoat/twitch-chat-backend/log"
 	"github.com/gempir/go-twitch-irc/v4"
 )
 
@@ -175,8 +176,7 @@ func ProcessAuthor(raw *twitch.User) *Author {
 	}
 
 	pr, err := pronounClient.Lookup(pronoundb.PLATFORM_TWITCH, raw.ID)
-	if err != nil {
-		fmt.Println("author err", err)
+	if log.ErrorIfErr(err, "looking up pronouns") {
 		pr = pronoundb.PR_UNSPECIFIED
 	}
 

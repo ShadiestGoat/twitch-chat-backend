@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
 
 	"github.com/ShadiestGoat/twitch-chat-backend/config"
 	"github.com/ShadiestGoat/twitch-chat-backend/db"
+	"github.com/ShadiestGoat/twitch-chat-backend/log"
 	"github.com/ShadiestGoat/twitch-chat-backend/ws"
 	"github.com/ShadiestGoat/twitch-chat-backend/wsutils"
 	"github.com/gempir/go-twitch-irc/v4"
@@ -54,7 +54,7 @@ func main() {
 	})
 
 	c.OnSelfJoinMessage(func(e twitch.UserJoinMessage) {
-		fmt.Println("Ready & Listening!")
+		log.Success("Listening to twitch chat!")
 	})
 
 	c.Join(config.TWITCH_CHANNEL_NAME)
@@ -64,7 +64,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println("disconnected!")
+		log.Debug("Disconnected!")
 	}()
 
 	defer c.Disconnect()
@@ -72,6 +72,8 @@ func main() {
 	r := router()
 
 	go func() {
+		log.Success("Starting server on 0.0.0.0:%s", config.PORT)
+
 		err := http.ListenAndServe(":" + config.PORT, r)
 		if err != nil {
 			panic(err)
@@ -84,5 +86,5 @@ func main() {
 
 	<-cancel
 
-	fmt.Println("bye :(")
+	log.Success("bye :(")
 }

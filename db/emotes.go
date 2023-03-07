@@ -43,7 +43,6 @@ func Init() {
 		for {
 			resp, err := http.Get(`https://7tv.io/v3/users/twitch/` + config.TWITCH_CHANNEL_ID)
 			if log.ErrorIfErr(err, "fetching emotes") {
-				fmt.Println("emote err", err)
 				time.Sleep(10 * time.Minute)
 				continue
 			}
