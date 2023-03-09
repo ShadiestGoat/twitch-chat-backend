@@ -34,7 +34,7 @@ func (db *DB) cleanDB() {
 	db.Lock()
 	defer db.Unlock()
 
-	s := len(db.Messages)
+	s := len(db.OldestMessages)
 
 	for i := s - 1; i >= 0; i-- {
 		msg := db.OldestMessages[i]
