@@ -8,6 +8,6 @@ func FixHue(inp int) int {
 			inp = 190
 		}
 	}
-	
+
 	return inp
 }

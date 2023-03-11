@@ -15,20 +15,20 @@ import (
 
 func main() {
 	config.Init()
-	
+
 	cleanCB := make(chan bool, 1)
-	
+
 	go db.DBClearLoop(cleanCB)
 
 	go func() {
 		for {
-			<- cleanCB
+			<-cleanCB
 			wsutils.UpdateMessages()
 		}
 	}()
 
 	db.Init()
-	
+
 	c := twitch.NewAnonymousClient()
 
 	// Message Deletion
@@ -74,7 +74,7 @@ func main() {
 	go func() {
 		log.Success("Starting server on 0.0.0.0:%s", config.PORT)
 
-		err := http.ListenAndServe(":" + config.PORT, r)
+		err := http.ListenAndServe(":"+config.PORT, r)
 		if err != nil {
 			panic(err)
 		}

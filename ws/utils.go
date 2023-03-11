@@ -23,14 +23,14 @@ func tryUpgrade(w http.ResponseWriter, r *http.Request) (bool, *websocket.Conn) 
 		fmt.Printf("5")
 		return false, conn
 	}
-	
+
 	msgs := db.FetchMessages()
 
 	err = conn.WriteJSON(Event{
 		Event: EV_UPDATE_MESSAGES,
-		Data: msgs,
+		Data:  msgs,
 	})
-	
+
 	if err != nil {
 		panic(err)
 	}
@@ -40,7 +40,7 @@ func tryUpgrade(w http.ResponseWriter, r *http.Request) (bool, *websocket.Conn) 
 
 func SocketHandler(w http.ResponseWriter, r *http.Request) {
 	ok, conn := tryUpgrade(w, r)
-	
+
 	if !ok && conn != nil {
 		conn.WriteJSON(struct {
 			Err string `json:"error"`

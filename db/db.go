@@ -42,7 +42,7 @@ func (db *DB) cleanDB() {
 			continue
 		}
 
-		if time.Since(msg.Time) > 7 * time.Minute {
+		if time.Since(msg.Time) > 7*time.Minute {
 			db.OldestMessages[i] = nil
 			delete(db.Messages, msg.ID)
 			delete(db.MessagesByAuthor[msg.Author.ID], msg.ID)

@@ -83,7 +83,7 @@ func log(level logLevel, msg string, args ...any) {
 	prefix := fmt.Sprintf("[%v] [%v] ", levelInfo.Prefix, date)
 
 	levelInfo.Color.Println(prefix + msg)
-	
+
 	fileLock.Lock()
 	file.WriteString(prefix + msg + "\n")
 	fileLock.Unlock()
@@ -146,12 +146,12 @@ func ErrorIfErr(err error, context string, args ...any) bool {
 
 // Doesn't log anything, but prints in the pretty debug color
 func DebugPretty(msg string, args ...any) {
-	levelInfo[ll_DEBUG].Color.Printf(msg + "\n", args...)
+	levelInfo[ll_DEBUG].Color.Printf(msg+"\n", args...)
 }
 
 // Doesn't log anything, but prints in the pretty success color
 func SuccessPretty(msg string, args ...any) {
-	levelInfo[ll_SUCCESS].Color.Printf(msg + "\n", args...)
+	levelInfo[ll_SUCCESS].Color.Printf(msg+"\n", args...)
 }
 
 func Close() {

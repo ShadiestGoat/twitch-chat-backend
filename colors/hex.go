@@ -8,7 +8,7 @@ func HexToRGB(s string) (r, g, b uint8) {
 	if len(s) != 6 {
 		return
 	}
-	
+
 	r = parseHex(s[:2])
 	g = parseHex(s[2:4])
 	b = parseHex(s[4:])

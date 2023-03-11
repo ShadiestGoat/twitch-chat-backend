@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/joho/godotenv"
 	"github.com/ShadiestGoat/twitch-chat-backend/log"
+	"github.com/joho/godotenv"
 )
 
 type confItem struct {
@@ -14,24 +14,24 @@ type confItem struct {
 
 	// Has to be *string, *int, *float64, *bool, *[]string. Slices are space separated!
 	// Bool is case insensitive and supports the following keys:
-	// TRUE -> true, 
+	// TRUE -> true,
 	Res any
 
 	// If not nil, is used to set the value of Res (Res must be a pointer!)
 	Parser func(inp string) any
 
-	Default     any
-	Required    bool
+	Default  any
+	Required bool
 
-	// 'ITEM' is not set, so CONSEQUENCE 
+	// 'ITEM' is not set, so CONSEQUENCE
 	Consequence string
 }
 
 var (
-	TWITCH_CHANNEL_NAME             = ""
-	TWITCH_CHANNEL_ID                    = ""
-	PORT                  = ""
-	EMOTE_BLACKLIST = []string{}
+	TWITCH_CHANNEL_NAME = ""
+	TWITCH_CHANNEL_ID   = ""
+	PORT                = ""
+	EMOTE_BLACKLIST     = []string{}
 )
 
 func Init() {
@@ -42,18 +42,18 @@ func Init() {
 
 	var confMap = []*confItem{
 		{
-			Env: "PORT",
-			Res: &PORT,
+			Env:      "PORT",
+			Res:      &PORT,
 			Required: true,
 		},
 		{
-			Env: "TWITCH_CHANNEL_ID",
-			Res: &TWITCH_CHANNEL_ID,
+			Env:      "TWITCH_CHANNEL_ID",
+			Res:      &TWITCH_CHANNEL_ID,
 			Required: true,
 		},
 		{
-			Env: "TWITCH_CHANNEL_NAME",
-			Res: &TWITCH_CHANNEL_NAME,
+			Env:      "TWITCH_CHANNEL_NAME",
+			Res:      &TWITCH_CHANNEL_NAME,
 			Required: true,
 		},
 		{
@@ -61,13 +61,13 @@ func Init() {
 			Res: &debugMention,
 		},
 		{
-			Env: "DEBUG_WEBHOOK",
-			Res: &debugWebhook,
+			Env:         "DEBUG_WEBHOOK",
+			Res:         &debugWebhook,
 			Consequence: "it will not send debug messages to discord",
 		},
 		{
-			Env: "EMOTE_BLACKLIST",
-			Res: &EMOTE_BLACKLIST,
+			Env:         "EMOTE_BLACKLIST",
+			Res:         &EMOTE_BLACKLIST,
 			Consequence: "there shall not be any blacklisted emotes",
 		},
 	}

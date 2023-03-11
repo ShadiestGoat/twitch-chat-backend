@@ -144,7 +144,7 @@ func ProcessMessage(raw *twitch.PrivateMessage) *Message {
 	if raw.Reply != nil {
 		content, _ = strings.CutPrefix(content, fmt.Sprintf("@%s ", raw.Reply.ParentDisplayName))
 	}
-	
+
 	msg = &Message{
 		ID:      raw.ID,
 		Author:  ProcessAuthor(&raw.User),

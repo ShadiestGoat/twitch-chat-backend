@@ -7,6 +7,6 @@ import (
 )
 
 var GlobalMgr = &eventManager{
-	Mutex: &sync.Mutex{},
+	Mutex:       &sync.Mutex{},
 	Connections: map[string]*websocket.Conn{},
 }

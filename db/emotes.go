@@ -24,12 +24,12 @@ type emoteDB struct {
 }
 
 type sevenTVEmote struct {
-	ID string `json:"id"`
+	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
 var emotes = &emoteDB{
-	RWMutex:     &sync.RWMutex{},
+	RWMutex:   &sync.RWMutex{},
 	blacklist: map[string]bool{},
 	sevenTV:   map[string]string{},
 }
@@ -39,7 +39,7 @@ func Init() {
 		emotes.blacklist[e] = true
 	}
 
-	go func () {
+	go func() {
 		for {
 			resp, err := http.Get(`https://7tv.io/v3/users/twitch/` + config.TWITCH_CHANNEL_ID)
 			if log.ErrorIfErr(err, "fetching emotes") {
@@ -69,7 +69,7 @@ func Init() {
 			}
 
 			err = json.NewDecoder(resp.Body).Decode(&emotesRaw)
-			
+
 			if log.ErrorIfErr(err, "json decoding emotes") {
 				time.Sleep(10 * time.Minute)
 				continue
@@ -78,7 +78,7 @@ func Init() {
 			emotes.Lock()
 
 			emotes.sevenTV = map[string]string{}
-			
+
 			for _, e := range emotesRaw.Set.Emotes {
 				emotes.sevenTV[e.Name] = e.ID
 			}
@@ -108,7 +108,7 @@ func ProcessEmotes(str string, base []*twitch.Emote) []*Emote {
 			})
 		}
 	}
-	
+
 	spl := strings.Split(str, " ")
 
 	emoteMap := map[string]*Emote{}
@@ -135,7 +135,7 @@ func ProcessEmotes(str string, base []*twitch.Emote) []*Emote {
 	}
 
 	emotes.RUnlock()
-	
+
 	for _, e := range emoteMap {
 		newEmotes = append(newEmotes, e)
 	}

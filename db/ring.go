@@ -1,8 +1,8 @@
 package db
 
 func getZero[T any]() T {
-    var result T
-    return result
+	var result T
+	return result
 }
 
 type Ring[T any] []T
@@ -18,9 +18,9 @@ func (r Ring[T]) Shift(n int) {
 	}
 
 	for i := len(r) - n; i >= n; i-- {
-		r[i] = r[i - n]
+		r[i] = r[i-n]
 	}
-	
+
 	for i := 0; i < n; i++ {
 		r[i] = getZero[T]()
 	}
@@ -30,7 +30,6 @@ func (r Ring[T]) Add(v T) {
 	r.Shift(1)
 	r[0] = v
 }
-
 
 func (r Ring[T]) Delete(deleteIndex int) {
 	if deleteIndex < 0 {

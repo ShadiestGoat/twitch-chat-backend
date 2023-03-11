@@ -22,10 +22,10 @@ func (p pronoun) MarshalJSON() ([]byte, error) {
 }
 
 type Author struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	Color       string `json:"color"`
-	Pronouns    pronoun `json:"pronouns"`
+	ID          string    `json:"id"`
+	Name        string    `json:"name"`
+	Color       string    `json:"color"`
+	Pronouns    pronoun   `json:"pronouns"`
 	TimeFetched time.Time `json:"-"`
 }
 
@@ -38,14 +38,14 @@ func (a Author) String() string {
 }
 
 type Message struct {
-	ID      string          `json:"id"`
-	Author  *Author         `json:"author"`
-	Content string          `json:"content"`
-	Time    time.Time       `json:"time"`
-	Emotes  []*Emote		`json:"emotes"`
-	Bits    int             `json:"bits"`
-	Action  bool            `json:"action"`
-	Parent  *Message        `json:"reply"`
+	ID      string    `json:"id"`
+	Author  *Author   `json:"author"`
+	Content string    `json:"content"`
+	Time    time.Time `json:"time"`
+	Emotes  []*Emote  `json:"emotes"`
+	Bits    int       `json:"bits"`
+	Action  bool      `json:"action"`
+	Parent  *Message  `json:"reply"`
 }
 
 func (msg Message) String() string {

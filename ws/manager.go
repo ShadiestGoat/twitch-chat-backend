@@ -56,7 +56,7 @@ func (r *eventManager) Ping() {
 	wg := &sync.WaitGroup{}
 	r.Lock()
 	defer r.Unlock()
-	
+
 	tmpLock := &sync.Mutex{}
 
 	for id, conn := range r.Connections {
@@ -127,4 +127,3 @@ func init() {
 		}
 	}()
 }
-

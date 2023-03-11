@@ -12,10 +12,10 @@ type Event struct {
 }
 
 type EventData struct {
-	ID         string `json:"id"`
+	ID string `json:"id"`
 }
 
 type EventDataMerge struct {
 	From string `json:"from"`
-	To string `json:"to"`
+	To   string `json:"to"`
 }
