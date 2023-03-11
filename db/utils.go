@@ -31,7 +31,9 @@ func fixOldMessages() {
 	for i, item := range db.OldestMessages {
 		if item != nil {
 			db.OldestMessages[lastAvailable] = item
-			db.OldestMessages[i] = nil
+			if lastAvailable != i {
+				db.OldestMessages[i] = nil
+			}
 			lastAvailable++
 		}
 	}

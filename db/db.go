@@ -24,7 +24,7 @@ var db = &DB{
 
 func DBClearLoop(c chan bool) {
 	for {
-		time.Sleep(time.Minute * 6)
+		time.Sleep(6 * time.Minute)
 		db.cleanDB()
 		c <- true
 	}
