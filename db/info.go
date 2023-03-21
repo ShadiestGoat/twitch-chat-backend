@@ -2,6 +2,7 @@ package db
 
 import (
 	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/ShadiestGoat/pronoundb"
@@ -39,14 +40,33 @@ func (a Author) String() string {
 type Message struct {
 	ID      string    `json:"id"`
 	Author  *Author   `json:"author"`
-	Content []*MDNode `json:"content"`
+	Content string    `json:"content"`
 	Time    time.Time `json:"time"`
+	Emotes  []*Emote  `json:"emotes"`
 	Bits    int       `json:"bits"`
 	Action  bool      `json:"action"`
 	Parent  *Message  `json:"reply"`
 }
 
-type emote struct {
-	URL      string `json:"url"`
-	Position [2]int
+func (msg Message) String() string {
+	parent := ""
+	if msg.Parent != nil {
+		parent = msg.Parent.String()
+		parent = "╭─" + parent + "\n"
+	}
+	return fmt.Sprintf("%s[%v] %s", parent, msg.Author, msg.Content)
 }
+
+type Emote struct {
+	URL string `json:"url"`
+	// [][start, end]
+	Positions [][2]int `json:"positions"`
+}
+
+// type Message struct {
+// 	ID string
+// 	Author *Author
+// 	Reply *Message
+// 	Emotes map[string]string
+// 	Time time.Time
+// }

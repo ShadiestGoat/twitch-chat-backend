@@ -90,28 +90,55 @@ func Init() {
 	}()
 }
 
-func processEmotes(str string, base []*twitch.Emote) map[string]string {
-	newEmotes := map[string]string{}
+func ProcessEmotes(str string, base []*twitch.Emote) []*Emote {
+	newEmotes := []*Emote{}
 
 	emotes.RLock()
 
 	for _, e := range base {
 		if !emotes.blacklist[strings.ToLower(e.Name)] {
-			newEmotes[strings.ToLower(e.Name)] = fmt.Sprintf(`https://static-cdn.jtvnw.net/emoticons/v2/%s/default/dark/1.0`, e.ID)
+			pos := [][2]int{}
+			for _, p := range e.Positions {
+				pos = append(pos, [2]int{p.Start, p.End})
+			}
+
+			newEmotes = append(newEmotes, &Emote{
+				URL:       fmt.Sprintf(`https://static-cdn.jtvnw.net/emoticons/v2/%s/default/dark/1.0`, e.ID),
+				Positions: pos,
+			})
 		}
 	}
 
 	spl := strings.Split(str, " ")
 
+	emoteMap := map[string]*Emote{}
+
+	l := 0
+
 	for _, s := range spl {
+		l += len(s) + 1
 		emoteID, ok := emotes.sevenTV[s]
 		if !ok {
 			continue
 		}
-		newEmotes[s] = fmt.Sprintf(`https://cdn.7tv.app/emote/%s/1x.webp`, emoteID)
+
+		if emoteMap[emoteID] == nil {
+			emoteMap[emoteID] = &Emote{
+				URL:       fmt.Sprintf(`https://cdn.7tv.app/emote/%s/1x.webp`, emoteID),
+				Positions: [][2]int{},
+			}
+		}
+
+		emoteMap[emoteID].Positions = append(emoteMap[emoteID].Positions, [2]int{
+			l - len(s) - 1, l - 1,
+		})
 	}
 
 	emotes.RUnlock()
+
+	for _, e := range emoteMap {
+		newEmotes = append(newEmotes, e)
+	}
 
 	return newEmotes
 }
