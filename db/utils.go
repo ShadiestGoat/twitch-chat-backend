@@ -148,9 +148,8 @@ func ProcessMessage(raw *twitch.PrivateMessage) *Message {
 	msg = &Message{
 		ID:      raw.ID,
 		Author:  ProcessAuthor(&raw.User),
-		Content: content,
+		Content: ParseContent(content, raw.Emotes),
 		Time:    raw.Time,
-		Emotes:  ProcessEmotes(content, raw.Emotes),
 		Bits:    raw.Bits,
 		Action:  raw.Action,
 	}
