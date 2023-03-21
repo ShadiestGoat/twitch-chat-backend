@@ -16,9 +16,6 @@ import (
 func main() {
 	config.Init()
 
-	db.ParseContent(`first **bold** *ital* ~~strike~~ ***bold ital*** ![image name](https://example.com) [**link** name](https://example.com) ~~*strike ital* **bold strike**~~ ~~**asdsad a~~**`, nil)
-	panic("A")
-
 	cleanCB := make(chan bool, 1)
 
 	go db.DBClearLoop(cleanCB)
